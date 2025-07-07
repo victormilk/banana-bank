@@ -11,7 +11,7 @@ defmodule BananaBankWeb.UsersJSON do
   def show(%{user: %User{} = user}) do
     %{
       message: "User retrieved successfully",
-      data: data(user)
+      data: user
     }
   end
 
