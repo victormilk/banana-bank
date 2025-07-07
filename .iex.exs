@@ -1,1 +1,2 @@
-alias BananaBank.Users.Create
+alias BananaBank.Users
+alias BananaBank.ViaCep.Client

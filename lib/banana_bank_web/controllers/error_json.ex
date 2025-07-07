@@ -14,6 +14,13 @@ defmodule BananaBankWeb.ErrorJSON do
     }
   end
 
+  def error(%{status: :bad_request}) do
+    %{
+      status: :bad_request,
+      error: "Bad request"
+    }
+  end
+
   def render(template, _assigns) do
     %{errors: %{detail: Phoenix.Controller.status_message_from_template(template)}}
   end

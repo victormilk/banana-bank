@@ -14,4 +14,11 @@ defmodule BananaBankWeb.FallbackController do
     |> put_view(BananaBankWeb.ErrorJSON)
     |> render(:error, status: :not_found)
   end
+
+  def call(conn, {:error, :bad_request}) do
+    conn
+    |> put_status(:bad_request)
+    |> put_view(BananaBankWeb.ErrorJSON)
+    |> render(:error, status: :bad_request)
+  end
 end
