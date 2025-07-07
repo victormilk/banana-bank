@@ -9,7 +9,7 @@ defmodule BananaBankWeb.UsersControllerTest do
       body = %{
         name: "John Doe",
         email: "john@email.com",
-        cep: "12345678",
+        cep: "01001000",
         password: "password123"
       }
 
@@ -20,7 +20,7 @@ defmodule BananaBankWeb.UsersControllerTest do
 
       assert %{
                "data" => %{
-                 "cep" => "12345678",
+                 "cep" => "01001000",
                  "email" => "john@email.com",
                  "id" => _id,
                  "name" => "John Doe"
@@ -33,7 +33,7 @@ defmodule BananaBankWeb.UsersControllerTest do
       body = %{
         name: "John Doe",
         email: "invalid_email",
-        cep: "12345678",
+        cep: "01001000",
         password: "password123"
       }
 
@@ -55,10 +55,10 @@ defmodule BananaBankWeb.UsersControllerTest do
   describe "delete/2" do
     test "successfully deletes an user", %{conn: conn} do
       params = %{
-        name: "John Doe",
-        email: "john@email.com",
-        cep: "12345678",
-        password: "password123"
+        "name" => "John Doe",
+        "email" => "john@email.com",
+        "cep" => "01001000",
+        "password" => "password123"
       }
 
       {:ok, %User{id: id}} = Users.create(params)
