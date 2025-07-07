@@ -4,6 +4,7 @@ defmodule BananaBank.Users.User do
   alias Ecto.Changeset
 
   @required_fields ~w(name password email cep)a
+  @required_fields_update ~w(name email cep)a
 
   @derive {Jason.Encoder, only: [:id, :name, :email, :cep]}
   schema "users" do
@@ -16,14 +17,26 @@ defmodule BananaBank.Users.User do
     timestamps()
   end
 
-  def changeset(user \\ %__MODULE__{}, params) do
+  def changeset(params) do
+    %__MODULE__{}
+    |> cast(params, @required_fields)
+    |> do_validations(@required_fields)
+    |> add_password_hash()
+  end 
+
+  def changeset(user, params) do
     user
     |> cast(params, @required_fields)
-    |> validate_required(@required_fields)
+    |> do_validations(@required_fields_update)
+    |> add_password_hash()
+  end
+
+  defp do_validations(changeset, fields) do
+    changeset
+    |> validate_required(fields)
     |> validate_length(:name, min: 3)
     |> validate_format(:email, ~r/@/)
     |> validate_length(:cep, is: 8)
-    |> add_password_hash()
   end
 
   defp add_password_hash(%Changeset{valid?: true, changes: %{password: password}} = changeset) do

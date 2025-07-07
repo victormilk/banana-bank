@@ -14,6 +14,15 @@ defmodule BananaBankWeb.UsersController do
     end
   end
 
+  def delete(conn, %{"id" => id}) do
+    with {:ok, %User{} = _} <- Users.delete(id) do
+      conn
+      |> put_status(:no_content)
+      |> json(nil)
+    end
+  end
+
+  @spec show(any(), map()) :: {:error, :not_found} | {:ok, any()} | Plug.Conn.t()
   def show(conn, %{"id" => id}) do
     with {:ok, %User{} = user} <- Users.get(id) do
       conn
