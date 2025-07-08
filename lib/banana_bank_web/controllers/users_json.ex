@@ -8,6 +8,15 @@ defmodule BananaBankWeb.UsersJSON do
     }
   end
 
+  def login(%{token: token}) do
+    %{
+      message: "User logged in successfully",
+      data: %{
+        token: token
+      }
+    }
+  end
+
   def show(%{user: %User{} = user}) do
     %{
       message: "User retrieved successfully",

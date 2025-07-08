@@ -1,6 +1,7 @@
 defmodule BananaBankWeb.UsersController do
   use BananaBankWeb, :controller
 
+  alias BananaBankWeb.Token
   alias BananaBank.Users
   alias Users.User
 
@@ -15,14 +16,23 @@ defmodule BananaBankWeb.UsersController do
   end
 
   def delete(conn, %{"id" => id}) do
-    with {:ok, %User{} = _} <- Users.delete(id) do
+    with {:ok, _} <- Users.delete(id) do
       conn
       |> put_status(:no_content)
       |> json(nil)
     end
   end
 
-  @spec show(any(), map()) :: {:error, :not_found} | {:ok, any()} | Plug.Conn.t()
+  def login(conn, params) do
+    with {:ok, user} <- Users.login(params) do
+      token = Token.sign(user)
+
+      conn
+      |> put_status(:ok)
+      |> render(:login, token: token)
+    end
+  end
+
   def show(conn, %{"id" => id}) do
     with {:ok, %User{} = user} <- Users.get(id) do
       conn
