@@ -1,7 +1,9 @@
 defmodule BananaBankWeb.FallbackController do
   use BananaBankWeb, :controller
 
-  def call(conn, {:error, %Ecto.Changeset{} = changeset}) do
+  alias Ecto.Changeset
+
+  def call(conn, {:error, %Changeset{} = changeset}) do
     conn
     |> put_status(:unprocessable_entity)
     |> put_view(BananaBankWeb.ErrorJSON)
@@ -20,5 +22,19 @@ defmodule BananaBankWeb.FallbackController do
     |> put_status(:bad_request)
     |> put_view(BananaBankWeb.ErrorJSON)
     |> render(:error, status: :bad_request)
+  end
+
+  def call(conn, {:error, %Changeset{} = changeset}) do
+    conn
+    |> put_status(:internal_server_error)
+    |> put_view(BananaBankWeb.ErrorJSON)
+    |> render(:error, changeset: changeset)
+  end
+
+  def call(conn, {:error, message}) do
+    conn
+    |> put_status(:bad_request)
+    |> put_view(BananaBankWeb.ErrorJSON)
+    |> render(:error, message: message)
   end
 end

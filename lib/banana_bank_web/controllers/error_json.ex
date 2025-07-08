@@ -21,6 +21,12 @@ defmodule BananaBankWeb.ErrorJSON do
     }
   end
 
+  def error(%{message: message}) do
+    %{
+      message: to_string(message)
+    }
+  end
+
   def render(template, _assigns) do
     %{errors: %{detail: Phoenix.Controller.status_message_from_template(template)}}
   end
